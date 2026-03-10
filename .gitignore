@@ -2,3 +2,7 @@
 base_model/
 dataset/
 filtered_dataset/
+venv/
+baseline_results/
+filtered_results/
+wandb/
