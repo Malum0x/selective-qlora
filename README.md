@@ -11,5 +11,6 @@ To ensure full transparency and rigous tracking, all experimental results, inclu
 
 The filtered dataset (top 30% highest perplexity samples from OpenHermes 2.5) is publicly available on Hugging Face: [https://huggingface.co/datasets/Malum0x/openhermes2.5-Perplexity_filtered_top30]
 
-
+After the first run (1 epoch), ARC Challenge shows a +0.5% improvement. A small margin, but training will continue for more epochs with validation loss tracking.
+Using the same finetuning settings on the full OpenHermes dataset, ARC challenge performance is 8% lower than the top30% filtered version. 
 tbc... 
