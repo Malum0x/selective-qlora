@@ -49,6 +49,11 @@ dataset = Dataset.from_list([{"text": to_text(e)} for e in raw])
 dataset = dataset.shuffle(seed=42).select(range(10000))
 print(f"Loaded {len(dataset)} samples from {DATASET_PATH}")
 
+split = dataset.train_test_split(test_size=0.1, seed=42)
+train_dataset = split["train"]
+eval_dataset = split["test"] 
+
+
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
 if tokenizer.pad_token is None:
@@ -92,17 +97,22 @@ training_config = SFTConfig(
     bf16=True,
     fp16=False,
     save_strategy="epoch",
+    eval_strategy="epoch",
+    load_best_model_at_end=True,
+    metric_for_best_model="eval_loss",
     warmup_ratio=0.03,
     lr_scheduler_type="cosine",
-    num_train_epochs=1
+    num_train_epochs=3
 )
 
 trainer = SFTTrainer(
     model=model,
-    train_dataset=dataset,
+    train_dataset=train_dataset,
     args=training_config,
     peft_config=peft_config,
     processing_class=tokenizer,
+    eval_dataset=eval_dataset
+
 )
 
 print("Starting training …")
@@ -111,4 +121,4 @@ trainer.train()
 print(f"Saving adapter to {OUTPUT_DIR}/final_adapter")
 trainer.model.save_pretrained(f"{OUTPUT_DIR}/final_adapter")
 tokenizer.save_pretrained(f"{OUTPUT_DIR}/final_adapter")
-wandb.finis()
+wandb.finish()
