@@ -16,7 +16,7 @@ custom experiment to observe firsthand how model behavior and training
 dynamics shift when exposed to a specifically curated subset. Rather 
 than relying solely on third-party benchmarks, the evaluation focuses 
 on direct observation of how the model responds to difficulty-filtered 
-data — with ARC Challenge and GSM8K used as external reference points.
+data, with ARC Challenge and GSM8K used as external reference points.
 
 To ensure full transparency and rigorous tracking, all experimental 
 results including loss curves and performance metrics are recorded 
@@ -36,24 +36,24 @@ https://huggingface.co/datasets/Malum0x/openhermes2.5-Perplexity_filtered_top30
 
 ## Findings
 
-After a 3-epoch run, results showed no meaningful improvement over 
+After a 3 epoch run, results showed no meaningful improvement over 
 1 epoch. The dataset may be too small, or the learning rate too high 
-— the model shows signs of catastrophic forgetting rather than 
+the model shows signs of catastrophic forgetting rather than 
 meaningful adaptation.
 
-Standard fine-tuning on full OpenHermes degrades model performance 
+Standard finetuning on full OpenHermes degrades model performance 
 across both benchmarks. Perplexity-based difficulty filtering 
-partially mitigates this — recovering ARC Challenge performance above 
-the base model — but math reasoning (GSM8K) remains degraded.
+partially mitigates this, recovering ARC Challenge performance above 
+the base model, but math reasoning (GSM8K) remains degraded.
 
 Perplexity filtering alone is insufficient to protect math reasoning 
 capabilities. This suggests that layers responsible for mathematical 
 reasoning are being overwritten during fine-tuning regardless of data 
 quality. Gradient-norm targeted layer selection may preserve these 
-capabilities by avoiding unnecessary updates to math-critical layers.
+capabilities by avoiding unnecessary updates to math critical layers.
 
 *This finding motivates the next project: gradient-norm based 
-selective layer fine-tuning.*
+selective layer finetuning.*
 
 
 
